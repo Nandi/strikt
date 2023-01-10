@@ -1,6 +1,7 @@
 package strikt.assertions
 
 import strikt.api.Assertion.Builder
+import java.math.BigDecimal
 
 /**
  * Asserts that the subject is `null`.
@@ -59,6 +60,7 @@ infix fun <T> Builder<T>.isEqualTo(expected: T?): Builder<T> =
   assert("is equal to %s", expected) {
     when (it) {
       expected -> pass(actual = it)
+      is BigDecimal -> if(expected is BigDecimal && it.compareTo(expected) == 0) pass(actual = it) else fail(actual = it)
       is ByteArray -> if (expected is ByteArray && it.contentEquals(expected)) pass(actual = it) else fail(actual = it)
       is BooleanArray -> if (expected is BooleanArray && it.contentEquals(expected)) pass(actual = it) else fail(actual = it)
       is CharArray -> if (expected is CharArray && it.contentEquals(expected)) pass(actual = it) else fail(actual = it)
